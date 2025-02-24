@@ -1,6 +1,6 @@
-Backend System For The FlyMore Flight Ticket Booking System
+## Backend System For The FlyMore Flight Ticket Booking System
 
-## Tech Stack
+### Tech Stack
 
 - Laravel 11
 - PHP 8.2
@@ -9,3 +9,5 @@ Backend System For The FlyMore Flight Ticket Booking System
 - Nginx
 - ReactJS
 - TailwindCSS
+
+<h6 style='text-align:center'>Developed By Naing Min Khant.</h3>
