@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('flight_id')->references('id')->on('flights');
-            $table->enum('status', \App\Enums\BookingStatus::values())->default(BookingStatus::PENDING);
+            $table->enum('status', BookingStatus::values())->default(BookingStatus::PENDING);
             $table->dateTime('booked_at')->default(now());
             $table->string('booked_by')->comment('Person who made this booking');
             $table->string('booked_email')->comment('Person email who made this booking');
