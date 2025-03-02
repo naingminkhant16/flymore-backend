@@ -4,5 +4,5 @@ namespace App\Services\Auth;
 
 interface AuthServiceInterface
 {
-    public function login();
+    public function login(string $email, string $password): array;
 }

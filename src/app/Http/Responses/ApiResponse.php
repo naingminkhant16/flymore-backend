@@ -27,13 +27,23 @@ class ApiResponse
         ]);
     }
 
-    public static function error(string $message, int $status, array|object $data = null): JsonResponse
+    public static function error(string $message, int $status = 500, array|object $data = null): JsonResponse
     {
         return response()->json([
             'status' => $status,
             'message' => $message,
             'meta_data' => self::getMetaData(),
             'data' => $data
-        ]);
+        ], $status);
+    }
+
+    public static function response(string $message, int $status = 200, array|object $data = null): JsonResponse
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'meta_data' => self::getMetaData(),
+            'data' => $data
+        ], $status);
     }
 }
