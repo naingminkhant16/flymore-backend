@@ -8,14 +8,17 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AuthService implements AuthServiceInterface
+readonly class AuthService implements AuthServiceInterface
 {
-    public function __construct(private readonly UserRepositoryInterface $userRepository)
+    public function __construct(private UserRepositoryInterface $userRepository)
     {
     }
 
     /**
-     * @throws Exception
+     * @param string $email
+     * @param string $password
+     * @return array
+     * @throws LoginFailException
      */
     public function login(string $email, string $password): array
     {
