@@ -2,10 +2,8 @@
 
 namespace App\Exceptions;
 
-use App\Http\Responses\ApiResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -13,11 +11,18 @@ class Handler extends ExceptionHandler
 {
     public function report(Throwable $e): void
     {
-        Log::error($e);
+        Log::error($e->getMessage());
     }
 
-    public function render($request, Throwable $e): JsonResponse
+    public function render($request, Throwable $e)
     {
-        return ApiResponse::error("Internal Server Error");
+        if ($e instanceof ModelNotFoundException) {
+            throw new ResourceNotFoundException(
+                str_replace('App\\Models\\', '', $e->getModel()),
+                $e->getIds()[0]
+            );
+        }
+
+        return parent::render($request, $e);
     }
 }

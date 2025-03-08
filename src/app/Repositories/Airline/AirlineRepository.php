@@ -4,13 +4,15 @@ namespace App\Repositories\Airline;
 
 use App\Exceptions\InternalServerErrorException;
 use App\Models\Airline;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 
 readonly class AirlineRepository implements AirlineRepositoryInterface
 {
-    public function __construct(private readonly Airline $airline)
+    public function __construct(private readonly Airline $airline) {}
+
+    public function getAll(): \Illuminate\Database\Eloquent\Collection
     {
+        return $this->airline->orderBy('name', 'asc')->get();
     }
 
     /**
@@ -29,6 +31,27 @@ readonly class AirlineRepository implements AirlineRepositoryInterface
         } catch (\Exception $e) {
             Log::error("AirlineRepository::create(): Failed to create airline: {$e->getMessage()}");
             throw new InternalServerErrorException("Failed to create airline");
+        }
+    }
+
+    /**
+     * @param Airline $airline
+     * @param array $data
+     * @return Airline
+     * @throws InternalServerErrorException
+     */
+    public function update(Airline $airline, array $data): Airline
+    {
+        try {
+            $airline->update([
+                'name' => $data['name'],
+                'code' => $data['code'],
+                'country' => $data['country']
+            ]);
+            return $airline;
+        } catch (\Exception $e) {
+            Log::error("AirlineRepository::update(): Failed to update airline: {$e->getMessage()}");
+            throw new InternalServerErrorException("Failed to update airline");
         }
     }
 }
