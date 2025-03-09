@@ -18,7 +18,7 @@ jobs:
       run: docker compose up -d
 
     - name: Install Dependencies
-      run: docker compose run --rm composer install --prefer-dist --no-progress --no-suggest
+      run: docker compose run --rm composer install --prefer-dist
 
      # ✅ Run Migrations & Seeders
     - name: Run Migrations
