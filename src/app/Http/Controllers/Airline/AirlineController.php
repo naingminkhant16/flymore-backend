@@ -22,8 +22,8 @@ class AirlineController extends Controller
     public function index(): JsonResponse
     {
         return ApiResponse::success(
-            'Get all Airlines',
-            ['airlines' => AirlineResource::collection($this->airlineService->getAll())]
+            message: 'Get all Airlines',
+            data: ['airlines' => AirlineResource::collection($this->airlineService->getAll())]
         );
     }
 
@@ -34,7 +34,7 @@ class AirlineController extends Controller
     public function store(AirlineCreateRequset $request): JsonResponse
     {
         $airline = $this->airlineService->create($request->validated());
-        return ApiResponse::success('Airline created', ['airline' => $airline]);
+        return ApiResponse::success(message: 'Airline created', status: 201, data: ['airline' => $airline]);
     }
 
     /**
@@ -45,6 +45,6 @@ class AirlineController extends Controller
     public function update(AirlineUpdateRequest $request, Airline $airline): JsonResponse
     {
         $updatedAirline = $this->airlineService->update($airline, $request->validated());
-        return ApiResponse::success('Airline updated', ['airline' => $updatedAirline]);
+        return ApiResponse::success('Airline updated', data: ['airline' => $updatedAirline]);
     }
 }

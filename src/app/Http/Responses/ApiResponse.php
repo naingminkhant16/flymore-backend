@@ -17,14 +17,14 @@ class ApiResponse
         ];
     }
 
-    public static function success(string $message, array|object $data = null): JsonResponse
+    public static function success(string $message, int $status = 200, array|object $data = null): JsonResponse
     {
         return response()->json([
-            'status' => 200,
+            'status' => $status,
             'message' => $message,
             'meta_data' => self::getMetaData(),
             'data' => $data
-        ]);
+        ], $status);
     }
 
     public static function error(string $message, int $status = 500, array|object $data = null): JsonResponse

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RoleName;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,6 +20,6 @@ class UserSeeder extends Seeder
             'email' => 'admin@flymore.com',
             'password' => Hash::make('password'),
         ]);
-        $user->assignRole('System Admin');
+        $user->assignRole(RoleName::SYSTEM_ADMIN);
     }
 }

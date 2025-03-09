@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    public function __construct(private readonly AuthServiceInterface $authService)
-    {
-    }
+    public function __construct(private readonly AuthServiceInterface $authService) {}
 
     /**
      * @param LoginRequest $request
@@ -21,6 +19,6 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $this->authService->login($request->input('email'), $request->input('password'));
-        return ApiResponse::success('Login success', $data);
+        return ApiResponse::success('Login success', data: $data);
     }
 }
