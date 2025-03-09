@@ -29,6 +29,7 @@ services:
       - "3307:3306"
     volumes:
       - ./mysql:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
     environment:
       MYSQL_DATABASE: fly_more
       MYSQL_USER: nmk

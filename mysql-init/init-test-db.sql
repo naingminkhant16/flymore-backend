@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS fly_more_test;
+GRANT ALL PRIVILEGES ON fly_more_test.* TO 'nmk'@'%';
+FLUSH PRIVILEGES;
