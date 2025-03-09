@@ -40,7 +40,7 @@ services:
     container_name: laravel_composer
     volumes:
       - ./src:/var/www/html
-    working_dir: /var/ww/html
+    working_dir: /var/www/html
 
   artisan:
     build:
@@ -50,7 +50,7 @@ services:
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    entrypoint: [ 'php','artisan' ]
+    entrypoint: ["php", "artisan"]
 
   npm:
     image: node:current-alpine
@@ -58,4 +58,4 @@ services:
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    entrypoint: [ 'npm' ]
+    entrypoint: ["npm"]
