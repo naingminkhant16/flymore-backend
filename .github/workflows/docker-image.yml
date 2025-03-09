@@ -18,12 +18,12 @@ jobs:
       run: docker compose up -d
 
     - name: Install Dependencies
-      run: docker-compose run --rm composer install --prefer-dist --no-progress --no-suggest
+      run: docker compose run --rm composer install --prefer-dist --no-progress --no-suggest
 
      # ✅ Run Migrations & Seeders
     - name: Run Migrations
-      run: docker-compose run --rm artisan migrate --force
+      run: docker compose run --rm artisan migrate --force
      
      # ✅ Run PHPUnit Tests
     - name: Run Tests
-      run: docker-compose run --rm artisan test
+      run: docker compose run --rm artisan test
