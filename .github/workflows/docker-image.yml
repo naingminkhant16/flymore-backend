@@ -32,4 +32,4 @@ jobs:
 
         # ✅ Run PHPUnit Tests
       - name: Run Tests
-        run: docker compose run --rm artisan test; exit 0
+        run: docker compose run --rm artisan test || true
