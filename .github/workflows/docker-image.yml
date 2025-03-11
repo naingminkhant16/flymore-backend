@@ -2,18 +2,42 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["master"]
+    branches: [ "master" ]
   pull_request:
-    branches: ["master"]
+    branches: [ "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: fly_more_test
+          MYSQL_USER: nmk
+          MYSQL_PASSWORD: 123456
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - uses: actions/checkout@v4
       - name: Build the docker container
-        run: docker compose up -d
+        run: docker compose up -d --build
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          while ! docker compose exec -T mysql mysqladmin ping --host=127.0.0.1 --user=root --password=root --silent; do
+            sleep 5
+          done
+          echo "MySQL is ready."
 
       - name: Install Dependencies
         run: docker compose run --rm composer install --prefer-dist
@@ -24,4 +48,4 @@ jobs:
 
         # ✅ Run PHPUnit Tests
       - name: Run Tests
-        run: docker compose run --rm artisan test || true
+        run: docker compose run --rm artisan test
