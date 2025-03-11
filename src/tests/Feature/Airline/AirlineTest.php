@@ -13,7 +13,9 @@ use Tests\TestCase;
 class AirlineTest extends TestCase
 {
     use RefreshDatabase;
+
     private User $user;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -24,16 +26,21 @@ class AirlineTest extends TestCase
         // Assign Role
         $this->user->assignRole(RoleName::SYSTEM_ADMIN);
     }
+
     /**
      * Get All Airlines Test Case
      */
     public function test_get_all_airlines(): void
     {
-        $response =  $this->actingAs($this->user)->get('/api/airlines');
+        $response = $this->actingAs($this->user)->get('/api/airlines');
         $response->assertStatus(200);
     }
 
-    public function test_store_a_airline(): void
+    /**
+     * test creating airline
+     * @return void
+     */
+    public function test_store_an_airline(): void
     {
         $airlineData = [
             'name' => fake()->company(),
@@ -41,7 +48,7 @@ class AirlineTest extends TestCase
             'country' => fake()->country()
         ];
 
-        $response =  $this->actingAs($this->user)->postJson('/api/airlines', $airlineData);
+        $response = $this->actingAs($this->user)->postJson('/api/airlines', $airlineData);
 
         $response->assertStatus(201)
             ->assertJson(['message' => 'Airline created']);
@@ -49,10 +56,14 @@ class AirlineTest extends TestCase
         $this->assertDatabaseHas('airlines', $airlineData);
     }
 
-    public function test_update_a_airline(): void
+    /**
+     * test updating airline
+     * @return void
+     */
+    public function test_update_an_airline(): void
     {
         // Create Airline
-        $airline =  Airline::create([
+        $airline = Airline::create([
             'name' => fake()->company(),
             'code' => fake()->unique()->lexify('??'),
             'country' => fake()->country()

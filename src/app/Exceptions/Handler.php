@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Http\Responses\ApiResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +11,7 @@ class Handler extends ExceptionHandler
 {
     public function report(Throwable $e): void
     {
-        Log::error($e->getMessage());
+        Log::error($e->getMessage(), ['exception' => $e]);
     }
 
     public function render($request, Throwable $e)
@@ -23,7 +22,6 @@ class Handler extends ExceptionHandler
                 $e->getIds()[0]
             );
         }
-
         return parent::render($request, $e);
     }
 }

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Airline;
+namespace App\Http\Requests\Airport;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Http\Responses\ApiResponse;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Validation\Validator;
-use App\Http\Responses\ApiResponse;
 use Illuminate\Validation\ValidationException;
 
-class AirlineCreateRequset extends FormRequest
+class AirportCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +21,15 @@ class AirlineCreateRequset extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:airlines,name',
-            'code' => 'required|string|max:255|unique:airlines,code',
-            'country' => 'required|string|max:255',
+            'name' => 'required|string|unique:airports,name|max:255',
+            'code' => 'required|string|unique:airports,code|max:100',
+            'city' => 'required|string|max:100',
+            'country' => 'required|string|max:100'
         ];
     }
 
@@ -43,10 +43,9 @@ class AirlineCreateRequset extends FormRequest
         throw new ValidationException(
             $validator,
             ApiResponse::response(
-                "Validation Failed!",
+                'Validation Failed!',
                 422,
-                ['errors' => $validator->errors()]
-            )
+                ['errors' => $validator->errors()])
         );
     }
 }

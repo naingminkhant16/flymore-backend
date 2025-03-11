@@ -13,7 +13,9 @@ use Illuminate\Http\JsonResponse;
 
 class AirlineController extends Controller
 {
-    public function __construct(private readonly AirlineServiceInterface $airlineService) {}
+    public function __construct(private readonly AirlineServiceInterface $airlineService)
+    {
+    }
 
     /**
      * Get All Airlines
@@ -34,7 +36,7 @@ class AirlineController extends Controller
     public function store(AirlineCreateRequset $request): JsonResponse
     {
         $airline = $this->airlineService->create($request->validated());
-        return ApiResponse::success(message: 'Airline created', status: 201, data: ['airline' => $airline]);
+        return ApiResponse::success(message: 'Airline created', status: 201, data: ['airline' => new AirlineResource($airline)]);
     }
 
     /**
@@ -45,6 +47,6 @@ class AirlineController extends Controller
     public function update(AirlineUpdateRequest $request, Airline $airline): JsonResponse
     {
         $updatedAirline = $this->airlineService->update($airline, $request->validated());
-        return ApiResponse::success('Airline updated', data: ['airline' => $updatedAirline]);
+        return ApiResponse::success('Airline updated', data: ['airline' => new AirlineResource($updatedAirline)]);
     }
 }
