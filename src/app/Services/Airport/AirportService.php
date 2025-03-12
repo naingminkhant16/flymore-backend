@@ -31,4 +31,16 @@ readonly class AirportService implements AirportServiceInterface
     {
         return $this->airportRepository->create($data);
     }
+
+    /**
+     * Update airport
+     * @param Airport $airport
+     * @param array $data
+     * @return Airport
+     * @throws InternalServerErrorException
+     */
+    public function update(Airport $airport, array $data): Airport
+    {
+        return $this->airportRepository->update($airport, $data);
+    }
 }

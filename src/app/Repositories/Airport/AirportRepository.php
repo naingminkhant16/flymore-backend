@@ -42,4 +42,26 @@ readonly class AirportRepository implements AirportRepositoryInterface
             throw new InternalServerErrorException("Failed to create airline!");
         }
     }
+
+    /**
+     * @param Airport $airport
+     * @param array $data
+     * @return Airport
+     * @throws InternalServerErrorException
+     */
+    public function update(Airport $airport, array $data): Airport
+    {
+        try {
+            $airport->update([
+                'name' => $data['name'],
+                'code' => $data['code'],
+                'city' => $data['city'],
+                'country' => $data['country']
+            ]);
+            return $airport;
+        } catch (Exception $e) {
+            Log::error("AirlineRepository::update(): Failed to update airline: {$e->getMessage()}");
+            throw new InternalServerErrorException("Failed to update airline!");
+        }
+    }
 }
