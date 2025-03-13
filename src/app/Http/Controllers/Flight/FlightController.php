@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Flight\FlightCreateRequest;
 use App\Http\Resources\Flight\FlightResource;
 use App\Http\Responses\ApiResponse;
-use App\Models\Flight;
 use App\Services\Flight\FlightServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,8 +28,18 @@ class FlightController extends Controller
         return ApiResponse::success("Flight created.", 201, ['flight' => $flight]);
     }
 
-    public function search(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function search(Request $request): JsonResponse
     {
+        $request->validate([
+                'from' => 'required',
+                'to' => 'required',
+                'date' => 'required|date_format:Y-m-d']
+        );
+        
         $flights = $this->flightService->searchByFromToAndDepartureDate(
             $request->from,
             $request->to,
