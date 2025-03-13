@@ -4,6 +4,7 @@ namespace App\Repositories\Flight;
 
 use App\Exceptions\CustomException;
 use App\Models\Flight;
+use Illuminate\Database\Eloquent\Collection;
 
 interface FlightRepositoryInterface
 {
@@ -40,4 +41,17 @@ interface FlightRepositoryInterface
         string $departureTime,
         string $arrivalTime,
     ): bool;
+
+    /**
+     * Search flights by departure airport id/ids, arrival airport id/ids and departure date
+     * @param int|array $departureAirportId
+     * @param int|array $arrivalAirportId
+     * @param string $departureDate
+     * @return Collection
+     */
+    public function getByAirportIdsAndDepartureDate(
+        int|array $departureAirportId,
+        int|array $arrivalAirportId,
+        string    $departureDate
+    ): Collection;
 }

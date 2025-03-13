@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum', IsSystemAdmin::class])->group(function () {
 
     // Flight Routes
     Route::post('/flights', [FlightController::class, 'store']);
+    Route::get('/flights/search', [FlightController::class, 'search']);
 });
 // Country List
 Route::get('/countries', [CountryController::class, 'countryList']);

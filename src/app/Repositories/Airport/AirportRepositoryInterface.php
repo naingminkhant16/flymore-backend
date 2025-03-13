@@ -28,4 +28,11 @@ interface AirportRepositoryInterface
      * @throws CustomException
      */
     public function update(Airport $airport, array $data): Airport;
+
+    /**
+     * Search by keyword (name, code, city, country)
+     * @param string $keyword
+     * @return Collection
+     */
+    public function getByKeyword(string $keyword): Collection;
 }

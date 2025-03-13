@@ -64,4 +64,19 @@ readonly class AirportRepository implements AirportRepositoryInterface
             throw new CustomException("Failed to update airline!");
         }
     }
+
+    /**
+     * Search by keyword (name, code, city, country)
+     * @param string $keyword
+     * @return Collection
+     */
+    public function getByKeyword(string $keyword): Collection
+    {
+        return $this->airport->where('name', 'like', '%' . $keyword . '%')
+            ->orWhere('code', 'like', '%' . $keyword . '%')
+            ->orWhere('city', 'like', '%' . $keyword . '%')
+            ->orWhere('country', 'like', '%' . $keyword . '%')
+            ->orderBy('name', 'asc')
+            ->get();
+    }
 }

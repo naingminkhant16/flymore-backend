@@ -4,6 +4,7 @@ namespace App\Services\Flight;
 
 use App\Exceptions\CustomException;
 use App\Models\Flight;
+use Illuminate\Database\Eloquent\Collection;
 
 interface FlightServiceInterface
 {
@@ -14,4 +15,14 @@ interface FlightServiceInterface
      * @throws CustomException
      */
     public function create(array $data): Flight;
+
+    /**
+     *  Search flights by From - To Airports with keyword (Airport - name, code, city, or country)
+     *  And Departure Date
+     * @param string $from
+     * @param string $to
+     * @param string $departureDate
+     * @return Collection|null
+     */
+    public function searchByFromToAndDepartureDate(string $from, string $to, string $departureDate): ?Collection;
 }

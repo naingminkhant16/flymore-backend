@@ -30,6 +30,9 @@ class AirlineSeeder extends Seeder
             ['name' => 'MAI (Myanmar Airways International)', 'code' => '8M', 'country' => 'Myanmar', 'created_at' => $now, 'updated_at' => $now],
 
             ['name' => 'Thai Airways', 'code' => 'TG', 'country' => 'Thailand', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Bangkok Airways', 'code' => 'PG', 'country' => 'Thailand', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Thai AirAsia', 'code' => 'FD', 'country' => 'Thailand', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Nok Air', 'code' => 'DD', 'country' => 'Thailand', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'Vietnam Airlines', 'code' => 'VN', 'country' => 'Vietnam', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'Japan Airlines', 'code' => 'JL', 'country' => 'Japan', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'All Nippon Airways', 'code' => 'NH', 'country' => 'Japan', 'created_at' => $now, 'updated_at' => $now],

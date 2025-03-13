@@ -4,6 +4,7 @@ namespace App\Repositories\Flight;
 
 use App\Exceptions\CustomException;
 use App\Models\Flight;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
 readonly class FlightRepository implements FlightRepositoryInterface
@@ -72,5 +73,27 @@ readonly class FlightRepository implements FlightRepositoryInterface
             ->where('departure_time', $departureTime)
             ->where('arrival_time', $arrivalTime)
             ->exists();
+    }
+
+
+    /**
+     * Search flights by departure airport id/ids, arrival airport id/ids and departure date
+     * @param int|array $departureAirportId
+     * @param int|array $arrivalAirportId
+     * @param string $departureDate
+     * @return Collection
+     */
+    public function getByAirportIdsAndDepartureDate(array|int $departureAirportId, array|int $arrivalAirportId, string $departureDate): Collection
+    {
+        $query = $this->flight;
+        $query = is_array($departureAirportId)
+            ? $query->whereIn('departure_airport_id', $departureAirportId)
+            : $query->where('departure_airport_id', $departureAirportId);
+
+        $query = is_array($arrivalAirportId)
+            ? $query->whereIn('arrival_airport_id', $arrivalAirportId)
+            : $query->where('arrival_airport_id', $arrivalAirportId);
+
+        return $query->where('flight_date', $departureDate)->latest()->get();
     }
 }
