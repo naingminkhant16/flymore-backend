@@ -3,14 +3,16 @@
 namespace App\Services\Airline;
 
 
-use App\Exceptions\InternalServerErrorException;
+use App\Exceptions\CustomException;
 use App\Models\Airline;
 use App\Repositories\Airline\AirlineRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 readonly class AirlineService implements AirlineServiceInterface
 {
-    public function __construct(private AirlineRepository $airlineRepository) {}
+    public function __construct(private AirlineRepository $airlineRepository)
+    {
+    }
 
     /**
      * Summary of getAll
@@ -24,7 +26,7 @@ readonly class AirlineService implements AirlineServiceInterface
     /**
      * @param array $data
      * @return Airline
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function create(array $data): Airline
     {
@@ -35,7 +37,7 @@ readonly class AirlineService implements AirlineServiceInterface
      * @param Airline $airline
      * @param array $data
      * @return Airline
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function update(Airline $airline, array $data): Airline
     {

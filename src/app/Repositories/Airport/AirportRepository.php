@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Airport;
 
-use App\Exceptions\InternalServerErrorException;
+use App\Exceptions\CustomException;
 use App\Models\Airport;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,7 +26,7 @@ readonly class AirportRepository implements AirportRepositoryInterface
     /**
      * @param array $data
      * @return Airport
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function create(array $data): Airport
     {
@@ -39,7 +39,7 @@ readonly class AirportRepository implements AirportRepositoryInterface
             ]);
         } catch (Exception $e) {
             Log::error("AirlineRepository::create(): Failed to create airline: {$e->getMessage()}");
-            throw new InternalServerErrorException("Failed to create airline!");
+            throw new CustomException("Failed to create airline!");
         }
     }
 
@@ -47,7 +47,7 @@ readonly class AirportRepository implements AirportRepositoryInterface
      * @param Airport $airport
      * @param array $data
      * @return Airport
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function update(Airport $airport, array $data): Airport
     {
@@ -61,7 +61,7 @@ readonly class AirportRepository implements AirportRepositoryInterface
             return $airport;
         } catch (Exception $e) {
             Log::error("AirlineRepository::update(): Failed to update airline: {$e->getMessage()}");
-            throw new InternalServerErrorException("Failed to update airline!");
+            throw new CustomException("Failed to update airline!");
         }
     }
 }

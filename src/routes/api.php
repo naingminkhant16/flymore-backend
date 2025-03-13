@@ -3,6 +3,7 @@
 use App\Http\Controllers\Airline\AirlineController;
 use App\Http\Controllers\Airport\AirportController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Flight\FlightController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Country\CountryController;
 use App\Http\Middleware\IsSystemAdmin;
@@ -21,7 +22,7 @@ Route::middleware(['auth:sanctum', IsSystemAdmin::class])->group(function () {
     Route::put('/airports/{airport}', [AirportController::class, 'update']);
 
     // Flight Routes
-
+    Route::post('/flights', [FlightController::class, 'store']);
 });
 // Country List
 Route::get('/countries', [CountryController::class, 'countryList']);

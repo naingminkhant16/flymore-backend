@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->foreignId('airline_id')->references('id')->on('airlines');
             $table->foreignId('departure_airport_id')->references('id')->on('airports');
             $table->foreignId('arrival_airport_id')->references('id')->on('airports');
-            $table->dateTime('departure_time');
-            $table->dateTime('arrival_time');
+            $table->time('departure_time');
+            $table->time('arrival_time');
             $table->date('flight_date');
             $table->decimal('price', 10, 2);
             $table->integer('allowed_kg')->default(20);
@@ -26,6 +26,9 @@ return new class extends Migration {
             $table->integer('available_seats');
             $table->softDeletes();
             $table->timestamps();
+
+            // Index
+            $table->index('flight_number');
         });
     }
 

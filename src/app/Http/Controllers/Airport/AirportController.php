@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Airport;
 
-use App\Exceptions\InternalServerErrorException;
+use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Airport\AirportCreateRequest;
 use App\Http\Requests\Airport\AirportUpdateRequest;
@@ -35,7 +35,7 @@ class AirportController extends Controller
      * Create new airport
      * @param AirportCreateRequest $request
      * @return JsonResponse
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function store(AirportCreateRequest $request): JsonResponse
     {
@@ -52,7 +52,7 @@ class AirportController extends Controller
      * @param AirportUpdateRequest $request
      * @param Airport $airport
      * @return JsonResponse
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function update(AirportUpdateRequest $request, Airport $airport): JsonResponse
     {

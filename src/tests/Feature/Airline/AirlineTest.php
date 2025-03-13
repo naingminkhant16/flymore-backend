@@ -19,8 +19,8 @@ class AirlineTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        // Create Role
-        Role::create(['name' => RoleName::SYSTEM_ADMIN]);
+        // Run seeder
+        $this->seed();
         // Create Admin User
         $this->user = User::factory()->create();
         // Assign Role

@@ -2,7 +2,7 @@
 
 namespace App\Services\Airport;
 
-use App\Exceptions\InternalServerErrorException;
+use App\Exceptions\CustomException;
 use App\Models\Airport;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -18,7 +18,7 @@ interface AirportServiceInterface
      * Create airport
      * @param array $data
      * @return Airport
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function create(array $data): Airport;
 
@@ -27,7 +27,7 @@ interface AirportServiceInterface
      * @param Airport $airport
      * @param array $data
      * @return Airport
-     * @throws InternalServerErrorException
+     * @throws CustomException
      */
     public function update(Airport $airport, array $data): Airport;
 }
