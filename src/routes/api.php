@@ -9,24 +9,29 @@ use App\Http\Controllers\Country\CountryController;
 use App\Http\Middleware\IsSystemAdmin;
 
 Route::post('/login', [AuthController::class, 'login']);
-
+// Admin Routes
 Route::middleware(['auth:sanctum', IsSystemAdmin::class])->group(function () {
     // Airline Routes
-    ROute::get('/airlines', [AirlineController::class, 'index']);
-    Route::post('/airlines', [AirlineController::class, 'store']);
-    Route::put('/airlines/{airline}', [AirlineController::class, 'update']);
+    ROute::get('/airlines', [AirlineController::class, 'index']); // get all airlines
+    Route::post('/airlines', [AirlineController::class, 'store']); // store a new airline
+    Route::put('/airlines/{airline}', [AirlineController::class, 'update']); // update airline
 
     // Airport Routes
-    Route::get('/airports', [AirportController::class, 'index']);
-    Route::post('/airports', [AirportController::class, 'store']);
-    Route::put('/airports/{airport}', [AirportController::class, 'update']);
+    Route::get('/airports', [AirportController::class, 'index']); // get all airports
+    Route::post('/airports', [AirportController::class, 'store']); // store a new airport
+    Route::put('/airports/{airport}', [AirportController::class, 'update']); // update airport
 
     // Flight Routes
-    Route::post('/flights', [FlightController::class, 'store']);
-    // Change Flight Status
-    Route::patch('/flights/{flight}/status', [FlightController::class, 'updateStatus']);
+    Route::post('/flights', [FlightController::class, 'store']); // Store a new flight
+    Route::patch('/flights/{flight}/status', [FlightController::class, 'updateStatus']);// Change Flight Status
 });
+
+// Public Routes
+Route::middleware(['guest'])->group(function () {
 // Flight Search Route
-Route::get('/flights/search', [FlightController::class, 'search']);
+    Route::get('/flights/search', [FlightController::class, 'search']);
+// Flight status'
+    Route::get('/flights/status', [FlightController::class, 'status']);
 // Country List
-Route::get('/countries', [CountryController::class, 'countryList']);
+    Route::get('/countries', [CountryController::class, 'countryList']);
+});

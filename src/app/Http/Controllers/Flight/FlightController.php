@@ -70,12 +70,23 @@ class FlightController extends Controller
             'status' => ['required', 'string', new Enum(FlightStatus::class)],
         ]);
 
-        $updateStatus = FlightStatus::tryFrom($request->status);
-        $flight = $this->flightService->updateFlightStatus($flight, $updateStatus);
+        $flight = $this->flightService->updateFlightStatus($flight, $request->input('status'));
 
         return ApiResponse::success(
             message: 'Flight status updated.',
             data: ['flight' => new FlightResource($flight)]
+        );
+    }
+
+    /**
+     * Endpoint for available flight status
+     * @return JsonResponse
+     */
+    public function status(): JsonResponse
+    {
+        return ApiResponse::success(
+            message: 'Available Flight Status.',
+            data: ['flight_status' => FlightStatus::values()]
         );
     }
 }

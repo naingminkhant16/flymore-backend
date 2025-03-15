@@ -65,12 +65,12 @@ readonly class FlightService implements FlightServiceInterface
     /**
      * Update flight status
      * @param Flight $flight
-     * @param FlightStatus $flightStatus
+     * @param string $flightStatus
      * @return Flight
      * @throws CustomException
      */
-    public function updateFlightStatus(Flight $flight, FlightStatus $flightStatus): Flight
+    public function updateFlightStatus(Flight $flight, string $flightStatus): Flight
     {
-        return $this->flightRepository->updateFlightStatus($flight, $flightStatus);
+        return $this->flightRepository->updateFlightStatus($flight, FlightStatus::tryFrom($flightStatus));
     }
 }
