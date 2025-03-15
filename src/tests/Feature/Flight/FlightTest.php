@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Flight;
 
+use App\Enums\FlightStatus;
 use App\Enums\RoleName;
 use App\Models\Airline;
 use App\Models\Airport;
@@ -16,6 +17,7 @@ class FlightTest extends TestCase
 
     private User $user;
     private array $flightData;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -75,10 +77,31 @@ class FlightTest extends TestCase
         $this->actingAs($this->user)->post('/api/flights', $this->flightData);
 
         // Search Flight
-        $this->get("/api/flights/search?from=" . Airport::first()->country
+        $response = $this->get("/api/flights/search?from=" . Airport::first()->country
             . "&to=" . Airport::latest()->first()->country
-            . "&date=2025-03-20")
-            ->assertStatus(200)
-            ->assertJsonFragment(['flight_number' => 'UB22']);
+            . "&date=2025-03-20");
+
+        $response->assertStatus(200);
+        $this->assertCount(1, $response->json('data')['flights']);
+    }
+
+    /**
+     * Test update flight status
+     * @return void
+     */
+    public function test_update_flight_status(): void
+    {
+        // Create Flight
+        $response = $this->actingAs($this->user)->post('/api/flights', $this->flightData);
+        $flightId = $response->json('data')['flight']['id'];
+
+        // Check id is not null
+        $this->assertNotNull($flightId);
+
+        // Update Flight Status
+        $updateResponse = $this->actingAs($this->user)->patch("/api/flights/$flightId/status", ['status' => FlightStatus::values()[3]]);
+
+        $updateResponse->assertStatus(200);
+        $this->assertEquals(FlightStatus::values()[3], $updateResponse->json('data')['flight']['status']);
     }
 }

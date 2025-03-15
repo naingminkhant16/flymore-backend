@@ -27,11 +27,10 @@ Route::middleware(['auth:sanctum', IsSystemAdmin::class])->group(function () {
 });
 
 // Public Routes
-Route::middleware(['guest'])->group(function () {
 // Flight Search Route
-    Route::get('/flights/search', [FlightController::class, 'search']);
+Route::get('/flights/search', [FlightController::class, 'search']);
 // Flight status'
-    Route::get('/flights/status', [FlightController::class, 'status']);
+Route::get('/flights/status', [FlightController::class, 'status']);
 // Country List
-    Route::get('/countries', [CountryController::class, 'countryList']);
-});
+Route::get('/countries', [CountryController::class, 'countryList']);
+
