@@ -59,12 +59,13 @@ readonly class FlightRepository implements FlightRepositoryInterface
      * @param string $flightDate
      * @param string $departureTime
      * @param string $arrivalTime
+     * @param int|null $id (for update purpose, exclude itself checking)
      * @return bool
      */
     public function checkFlightExists(
         string $flightNumber, int $departureAirportId,
         int    $arrivalAirportId, string $flightDate,
-        string $departureTime, string $arrivalTime
+        string $departureTime, string $arrivalTime, int $id = null
     ): bool
     {
         return $this->flight->where('flight_number', $flightNumber)
@@ -73,9 +74,9 @@ readonly class FlightRepository implements FlightRepositoryInterface
             ->where('flight_date', $flightDate)
             ->where('departure_time', $departureTime)
             ->where('arrival_time', $arrivalTime)
+            ->when($id !== null, fn($query) => $query->where('id', '!=', $id)) // if id is provided, it will exclude itself (for update purpose)
             ->exists();
     }
-
 
     /**
      * Search flights by departure airport id/ids, arrival airport id/ids and departure date
@@ -117,6 +118,36 @@ readonly class FlightRepository implements FlightRepositoryInterface
             return $flight;
         } catch (\Exception $exception) {
             Log::error("FlightRepository::updateFlightStatus(): {$exception->getMessage()}");
+            throw new CustomException("Internal Server Error");
+        }
+    }
+
+    /**
+     * Update flight
+     * @param Flight $flight
+     * @param array $data
+     * @return Flight
+     * @throws CustomException
+     */
+    public function update(Flight $flight, array $data): Flight
+    {
+        try {
+            $flight->update([
+                'flight_number' => $data['flight_number'],
+                'airline_id' => $data['airline_id'],
+                'departure_airport_id' => $data['departure_airport_id'],
+                'arrival_airport_id' => $data['arrival_airport_id'],
+                'departure_time' => $data['departure_time'],
+                'arrival_time' => $data['arrival_time'],
+                'flight_date' => $data['flight_date'],
+                'price' => $data['price'],
+                'status' => $data['status'],
+                'allowed_kg' => $data['allowed_kg'],
+                'available_seats' => $data['available_seats'],
+            ]);
+            return $flight;
+        } catch (\Exception $exception) {
+            Log::error("FlightRepository::updateFlight(): {$exception->getMessage()}");
             throw new CustomException("Internal Server Error");
         }
     }

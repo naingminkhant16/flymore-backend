@@ -6,6 +6,7 @@ use App\Enums\FlightStatus;
 use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flight\FlightCreateRequest;
+use App\Http\Requests\Flight\FlightUpdateRequest;
 use App\Http\Resources\Flight\FlightResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Flight;
@@ -88,5 +89,17 @@ class FlightController extends Controller
             message: 'Available Flight Status.',
             data: ['flight_status' => FlightStatus::values()]
         );
+    }
+
+    /**
+     * Update flight data
+     * @param Flight $flight
+     * @param FlightUpdateRequest $request
+     * @return JsonResponse
+     */
+    public function update(Flight $flight, FlightUpdateRequest $request): JsonResponse
+    {
+        $updatedFlight = $this->flightService->update($flight, $request->validated());
+        return ApiResponse::success(message: 'Flight updated.', data: ['flight' => new FlightResource($updatedFlight)]);
     }
 }

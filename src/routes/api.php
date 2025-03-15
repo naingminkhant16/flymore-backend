@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum', IsSystemAdmin::class])->group(function () {
     // Flight Routes
     Route::post('/flights', [FlightController::class, 'store']); // Store a new flight
     Route::patch('/flights/{flight}/status', [FlightController::class, 'updateStatus']);// Change Flight Status
+    Route::put('/flights/{flight}', [FlightController::class, 'update']); // Update flight
 });
 
 // Public Routes

@@ -35,4 +35,12 @@ interface FlightServiceInterface
      * @throws CustomException
      */
     public function updateFlightStatus(Flight $flight, string $flightStatus): Flight;
+
+    /**
+     * Update flight
+     * @param Flight $flight
+     * @param array $data
+     * @return Flight
+     */
+    public function update(Flight $flight, array $data): Flight;
 }

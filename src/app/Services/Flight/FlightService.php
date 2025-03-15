@@ -29,6 +29,21 @@ readonly class FlightService implements FlightServiceInterface
     public function create(array $data): Flight
     {
         // Check duplicated flight with same flight number, date and time
+        $this->checkFlightExists($data);
+
+        return $this->flightRepository->create($data);
+    }
+
+    /**
+     * Check flight already exists before create or update
+     * @param array $data
+     * @return void
+     * @throws CustomException
+     */
+    private function checkFlightExists(array $data): void
+    {
+        $id = empty($data['id']) ? null : $data['id'];
+        logger($id);
         if ($this->flightRepository->checkFlightExists(
             $data['flight_number'],
             $data['departure_airport_id'],
@@ -36,9 +51,8 @@ readonly class FlightService implements FlightServiceInterface
             $data['flight_date'],
             $data['departure_time'],
             $data['arrival_time'],
+            $id
         )) throw new CustomException("Flight already exists!", 400);
-
-        return $this->flightRepository->create($data);
     }
 
     /**
@@ -72,5 +86,20 @@ readonly class FlightService implements FlightServiceInterface
     public function updateFlightStatus(Flight $flight, string $flightStatus): Flight
     {
         return $this->flightRepository->updateFlightStatus($flight, FlightStatus::tryFrom($flightStatus));
+    }
+
+    /**
+     * Update flight
+     * @param Flight $flight
+     * @param array $data
+     * @return Flight
+     * @throws CustomException
+     */
+    public function update(Flight $flight, array $data): Flight
+    {
+        $data['status'] = FlightStatus::tryFrom($data['status']); // Convert to enum
+        $data['id'] = $flight->id; // to check duplication excepts itself
+        $this->checkFlightExists($data);
+        return $this->flightRepository->update($flight, $data);
     }
 }

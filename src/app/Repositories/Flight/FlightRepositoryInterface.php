@@ -32,6 +32,7 @@ interface FlightRepositoryInterface
      * @param string $flightDate
      * @param string $departureTime
      * @param string $arrivalTime
+     * @param int|null $id (for update purpose, exclude itself checking)
      * @return bool
      */
     public function checkFlightExists(
@@ -41,6 +42,7 @@ interface FlightRepositoryInterface
         string $flightDate,
         string $departureTime,
         string $arrivalTime,
+        int    $id = null
     ): bool;
 
     /**
@@ -64,4 +66,13 @@ interface FlightRepositoryInterface
      * @throws CustomException
      */
     public function updateFlightStatus(Flight $flight, FlightStatus $flightStatus): Flight;
+
+    /**
+     * Update flight
+     * @param Flight $flight
+     * @param array $data
+     * @return Flight
+     * @throws CustomException
+     */
+    public function update(Flight $flight, array $data): Flight;
 }
