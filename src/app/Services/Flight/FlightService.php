@@ -2,6 +2,7 @@
 
 namespace App\Services\Flight;
 
+use App\Enums\FlightStatus;
 use App\Exceptions\CustomException;
 use App\Models\Flight;
 use App\Repositories\Airport\AirportRepositoryInterface;
@@ -59,5 +60,17 @@ readonly class FlightService implements FlightServiceInterface
         return $this->flightRepository->getByAirportIdsAndDepartureDate(
             $fromAirports, $toAirports, $departureDate
         );
+    }
+
+    /**
+     * Update flight status
+     * @param Flight $flight
+     * @param FlightStatus $flightStatus
+     * @return Flight
+     * @throws CustomException
+     */
+    public function updateFlightStatus(Flight $flight, FlightStatus $flightStatus): Flight
+    {
+        return $this->flightRepository->updateFlightStatus($flight, $flightStatus);
     }
 }

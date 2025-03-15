@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Flight;
 
+use App\Enums\FlightStatus;
 use App\Exceptions\CustomException;
 use App\Models\Flight;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 readonly class FlightRepository implements FlightRepositoryInterface
 {
-    public function __construct(private readonly Flight $flight)
+    public function __construct(private Flight $flight)
     {
     }
 
@@ -83,7 +84,11 @@ readonly class FlightRepository implements FlightRepositoryInterface
      * @param string $departureDate
      * @return Collection
      */
-    public function getByAirportIdsAndDepartureDate(array|int $departureAirportId, array|int $arrivalAirportId, string $departureDate): Collection
+    public function getByAirportIdsAndDepartureDate(
+        array|int $departureAirportId,
+        array|int $arrivalAirportId,
+        string    $departureDate
+    ): Collection
     {
         $query = $this->flight;
         $query = is_array($departureAirportId)
@@ -95,5 +100,24 @@ readonly class FlightRepository implements FlightRepositoryInterface
             : $query->where('arrival_airport_id', $arrivalAirportId);
 
         return $query->where('flight_date', $departureDate)->latest()->get();
+    }
+
+    /**
+     * Update flight status
+     * @param Flight $flight
+     * @param FlightStatus $flightStatus
+     * @return Flight
+     * @throws CustomException
+     */
+    public function updateFlightStatus(Flight $flight, FlightStatus $flightStatus): Flight
+    {
+        try {
+            $flight->status = $flightStatus;
+            $flight->save();
+            return $flight;
+        } catch (\Exception $exception) {
+            Log::error("FlightRepository::updateFlightStatus(): {$exception->getMessage()}");
+            throw new CustomException("Internal Server Error");
+        }
     }
 }
