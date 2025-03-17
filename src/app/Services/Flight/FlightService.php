@@ -42,8 +42,6 @@ readonly class FlightService implements FlightServiceInterface
      */
     private function checkFlightExists(array $data): void
     {
-        $id = empty($data['id']) ? null : $data['id'];
-        logger($id);
         if ($this->flightRepository->checkFlightExists(
             $data['flight_number'],
             $data['departure_airport_id'],
@@ -51,7 +49,7 @@ readonly class FlightService implements FlightServiceInterface
             $data['flight_date'],
             $data['departure_time'],
             $data['arrival_time'],
-            $id
+            $data['id'] ?? null
         )) throw new CustomException("Flight already exists!", 400);
     }
 

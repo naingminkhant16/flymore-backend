@@ -6,6 +6,7 @@ use App\Enums\FlightStatus;
 use App\Enums\RoleName;
 use App\Models\Airline;
 use App\Models\Airport;
+use App\Models\Flight;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -103,5 +104,27 @@ class FlightTest extends TestCase
 
         $updateResponse->assertStatus(200);
         $this->assertEquals(FlightStatus::values()[3], $updateResponse->json('data')['flight']['status']);
+    }
+
+    /**
+     * Update existing flight
+     * @return void
+     */
+    public function test_update_existing_flight(): void
+    {
+        $response = $this->actingAs($this->user)->post('/api/flights', $this->flightData);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('flights', $this->flightData);
+        $flightId = $response->json('data')['flight']['id'];
+        // Check id is not null
+        $this->assertNotNull($flightId);
+
+        $this->flightData['flight_number'] = 'UB25';
+        $this->flightData['flight_date'] = '2025-03-28';
+        $this->flightData['status'] = FlightStatus::values()[2];
+        // Update flight
+        $updateResponse = $this->actingAs($this->user)->put("/api/flights/$flightId", $this->flightData);
+        $updateResponse->assertStatus(200);
+        $this->assertDatabaseHas('flights', $this->flightData);
     }
 }
