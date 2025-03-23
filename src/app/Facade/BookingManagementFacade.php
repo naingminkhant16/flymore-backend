@@ -46,7 +46,7 @@ readonly class BookingManagementFacade
             $filePath = $this->pdfService->generateETicket($booking);
 
             // Send Email with PDF
-            Mail::to($booking->booked_email)->send(new BookingMade($booking, $filePath));
+            Mail::to($booking->booked_email)->queue(new BookingMade($booking, $filePath));
 
             DB::commit();
             return new BookingResource($booking);

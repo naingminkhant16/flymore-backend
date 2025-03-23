@@ -238,6 +238,12 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/opcodesio/mail-parser" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/spatie/laravel-permission" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/laravel/sanctum" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/barryvdh/laravel-dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/dompdf/dompdf" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/dompdf/php-font-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/dompdf/php-svg-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/sabberworm/php-css-parser" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
