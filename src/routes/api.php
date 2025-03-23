@@ -3,6 +3,7 @@
 use App\Http\Controllers\Airline\AirlineController;
 use App\Http\Controllers\Airport\AirportController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Flight\FlightController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Country\CountryController;
@@ -23,15 +24,18 @@ Route::middleware(['auth:sanctum', IsSystemAdmin::class])->group(function () {
 
     // Flight Routes
     Route::post('/flights', [FlightController::class, 'store']); // Store a new flight
-    Route::patch('/flights/{flight}/status', [FlightController::class, 'updateStatus']);// Change Flight Status
+    Route::patch('/flights/{flight}/status', [FlightController::class, 'updateStatus']); // Change Flight Status
     Route::put('/flights/{flight}', [FlightController::class, 'update']); // Update flight
 });
 
 // Public Routes
 // Flight Search Route
 Route::get('/flights/search', [FlightController::class, 'search']);
-// Flight status'
+// Flight status
 Route::get('/flights/status', [FlightController::class, 'status']);
+
+// Booking Routes
+Route::post('/bookings', [BookingController::class, 'makeBooking']); // Make a new booking
+
 // Country List
 Route::get('/countries', [CountryController::class, 'countryList']);
-

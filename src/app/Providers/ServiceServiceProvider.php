@@ -8,6 +8,8 @@ use App\Services\Airport\AirportService;
 use App\Services\Airport\AirportServiceInterface;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
+use App\Services\Booking\BookingService;
+use App\Services\Booking\BookingServiceInterface;
 use App\Services\Flight\FlightService;
 use App\Services\Flight\FlightServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,7 @@ class ServiceServiceProvider extends ServiceProvider
         $this->app->bind(AirlineServiceInterface::class, AirlineService::class);
         $this->app->bind(AirportServiceInterface::class, AirportService::class);
         $this->app->bind(FlightServiceInterface::class, FlightService::class);
+        $this->app->bind(BookingServiceInterface::class, BookingService::class);
     }
 
     /**
