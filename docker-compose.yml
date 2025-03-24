@@ -51,7 +51,7 @@ services:
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    entrypoint: ["php", "artisan"]
+    entrypoint: [ "php", "artisan" ]
 
   npm:
     image: node:current-alpine
@@ -59,7 +59,7 @@ services:
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
-    entrypoint: ["npm"]
+    entrypoint: [ "npm" ]
 
   # Queue Worker Service
   laravel-queue-worker:
@@ -74,5 +74,16 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
-    command: php artisan queue:work --queue=default --sleep=3 --tries=3 --max-time=3600
+    command: php artisan queue:work --queue=rabbitmq --tries=3 --max-time=3600
     restart: always
+
+  # RabbitMQ Service
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: nmk
+      RABBITMQ_DEFAULT_PASS: 123456

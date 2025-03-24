@@ -9,7 +9,7 @@ interface PdfServiceInterface
     /**
      * Generate E-Ticket booking
      * @param Booking $booking
-     * @return string
+     * @return void
      */
-    public function generateETicket(Booking $booking): string;
+    public function generateETicket(Booking $booking): void;
 }

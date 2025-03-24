@@ -4,24 +4,21 @@ namespace App\Facade;
 
 use App\Exceptions\CustomException;
 use App\Http\Resources\Booking\BookingResource;
+use App\Jobs\GenerateETicketPdfJob;
 use App\Mail\BookingMade;
 use App\Repositories\Booking\BookingRepositoryInterface;
 use App\Repositories\Passenger\PassengerRepositoryInterface;
-use App\Services\IntegratedServices\PDF\PdfService;
-use App\Services\IntegratedServices\PDF\PdfServiceInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 readonly class BookingManagementFacade
 {
-    private PdfServiceInterface $pdfService;
-
     public function __construct(
         private BookingRepositoryInterface   $bookingRepository,
         private PassengerRepositoryInterface $passengerRepository
-    ) {
-        $this->pdfService = new PdfService();
+    )
+    {
     }
 
     /**
@@ -43,10 +40,10 @@ readonly class BookingManagementFacade
             }
 
             // Generate PDF
-            $filePath = $this->pdfService->generateETicket($booking);
+            GenerateETicketPdfJob::dispatch($booking);
 
             // Send Email with PDF
-            Mail::to($booking->booked_email)->queue(new BookingMade($booking, $filePath));
+            Mail::to($booking->booked_email)->queue(new BookingMade($booking));
 
             DB::commit();
             return new BookingResource($booking);

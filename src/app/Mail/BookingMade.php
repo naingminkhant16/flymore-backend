@@ -20,11 +20,8 @@ class BookingMade extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        public readonly Booking $booking,
-        private readonly string $filePath
-    )
-    {
-    }
+        public readonly Booking $booking
+    ) {}
 
     /**
      * Get the message envelope.
@@ -54,7 +51,7 @@ class BookingMade extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromStorageDisk('public', $this->filePath)
+            Attachment::fromStorageDisk('public', 'tickets/e-ticket-' . $this->booking->id . '.pdf')
                 ->withMime('application/pdf')
         ];
     }

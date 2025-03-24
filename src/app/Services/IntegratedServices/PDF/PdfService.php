@@ -11,14 +11,14 @@ class PdfService implements PdfServiceInterface
     /**
      * Generate E-Ticket booking
      * @param Booking $booking
-     * @return string
+     * @return void
      */
-    public function generateETicket(Booking $booking): string
+    public function generateETicket(Booking $booking): void
     {
-        $pdf = Pdf::loadView('mails.booking.eticket', ['booking' => $booking])->setBasePath(public_path('pdf'));
+        $pdf = Pdf::loadView('mails.booking.eticket', ['booking' => $booking])
+            ->setBasePath(public_path('pdf'));
         $pdf->setPaper('A4');
-//        $options = $pdf->getOptions();
-//        $options->setIsRemoteEnabled(true);
+
         $pdf->setOptions(['isRemoteEnabled' => true]);
 
         if (!Storage::disk('public')->exists('tickets'))
@@ -26,7 +26,5 @@ class PdfService implements PdfServiceInterface
 
         $filePath = 'tickets/e-ticket-' . $booking->id . '.pdf';
         $pdf->save($filePath, 'public');
-
-        return $filePath;
     }
 }
