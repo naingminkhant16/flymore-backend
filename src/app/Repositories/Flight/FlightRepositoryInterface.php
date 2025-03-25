@@ -4,11 +4,20 @@ namespace App\Repositories\Flight;
 
 use App\Enums\FlightStatus;
 use App\Exceptions\CustomException;
+use App\Exceptions\ResourceNotFoundException;
 use App\Models\Flight;
 use Illuminate\Database\Eloquent\Collection;
 
 interface FlightRepositoryInterface
 {
+    /**
+     * Get Flight By id
+     * @param int $id
+     * @return Flight
+     * @throws ResourceNotFoundException
+     */
+    public function getById(int $id): Flight;
+
     /**
      * Create new flight
      * @param array $data

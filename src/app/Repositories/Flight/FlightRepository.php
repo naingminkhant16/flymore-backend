@@ -4,6 +4,7 @@ namespace App\Repositories\Flight;
 
 use App\Enums\FlightStatus;
 use App\Exceptions\CustomException;
+use App\Exceptions\ResourceNotFoundException;
 use App\Models\Flight;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -150,5 +151,21 @@ readonly class FlightRepository implements FlightRepositoryInterface
             Log::error("FlightRepository::updateFlight(): {$exception->getMessage()}");
             throw new CustomException("Internal Server Error");
         }
+    }
+
+    /**
+     * Get Flight By id
+     * @param int $id
+     * @return Flight
+     * @throws ResourceNotFoundException
+     */
+    public function getById(int $id): Flight
+    {
+        $flight = $this->flight->where('id', $id)->first();
+        if (!$flight) {
+            Log::error("Flight not found with id = {$id}");
+            throw new ResourceNotFoundException("Flight", $id);
+        }
+        return $flight;
     }
 }
