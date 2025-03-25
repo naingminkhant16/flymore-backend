@@ -8,13 +8,7 @@ RUN apk add --no-cache \
     rabbitmq-c-dev \
     linux-headers \
     libmnl-dev \
-    php-sockets \
-    php-bcmath \
-    php-pcntl \
-    php-iconv \
-    php-ctype \
-    php-json \
-    bash
+    php-sockets
 
 RUN mkdir -p /var/www/html
 

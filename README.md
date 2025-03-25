@@ -8,6 +8,7 @@
 - Docker
 - Nginx
 - CI/CD
+- RabbitMQ
 
 ### Installation and Running
 
