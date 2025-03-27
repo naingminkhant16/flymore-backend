@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Booking;
 
 use App\Exceptions\CustomException;
+use App\Exceptions\ResourceNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\BookingCreateRequest;
 use App\Http\Responses\ApiResponse;
 use App\Services\Booking\BookingServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
@@ -20,7 +20,7 @@ class BookingController extends Controller
      * Make a booking
      * @param BookingCreateRequest $request
      * @return JsonResponse
-     * @throws CustomException
+     * @throws CustomException|ResourceNotFoundException
      */
     public function makeBooking(BookingCreateRequest $request): JsonResponse
     {

@@ -6,7 +6,6 @@ use App\Enums\FlightStatus;
 use App\Enums\RoleName;
 use App\Models\Airline;
 use App\Models\Airport;
-use App\Models\Flight;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -36,7 +35,7 @@ class FlightTest extends TestCase
             "arrival_airport_id" => Airport::latest()->first()->id,
             "departure_time" => "14:30:00",
             "arrival_time" => "18:45:00",
-            "flight_date" => "2025-03-20",
+            "flight_date" => "2026-03-20",
             "price" => 100.99,
             "allowed_kg" => 30,
             "available_seats" => 150
@@ -80,7 +79,7 @@ class FlightTest extends TestCase
         // Search Flight
         $response = $this->get("/api/flights/search?from=" . Airport::first()->country
             . "&to=" . Airport::latest()->first()->country
-            . "&date=2025-03-20");
+            . "&date=2026-03-20");
 
         $response->assertStatus(200);
         $this->assertCount(1, $response->json('data')['flights']);
