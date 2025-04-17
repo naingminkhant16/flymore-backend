@@ -119,7 +119,7 @@ class FlightTest extends TestCase
         $this->assertNotNull($flightId);
 
         $this->flightData['flight_number'] = 'UB25';
-        $this->flightData['flight_date'] = '2025-03-28';
+        $this->flightData['flight_date'] = '2026-03-28';
         $this->flightData['status'] = FlightStatus::values()[2];
         // Update flight
         $updateResponse = $this->actingAs($this->user)->put("/api/flights/$flightId", $this->flightData);

@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Flight;
 use App\Enums\FlightStatus;
 use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Flight\FlightCreateRequest;
-use App\Http\Requests\Flight\FlightUpdateRequest;
+use App\Http\Requests\Flight\FlightRequest;
 use App\Http\Resources\Flight\FlightResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Flight;
@@ -17,17 +16,15 @@ use Illuminate\Validation\Rules\Enum;
 
 class FlightController extends Controller
 {
-    public function __construct(private readonly FlightServiceInterface $flightService)
-    {
-    }
+    public function __construct(private readonly FlightServiceInterface $flightService) {}
 
     /**
      * Create a new Flight
-     * @param FlightCreateRequest $request
+     * @param FlightRequest $request
      * @return JsonResponse
      * @throws CustomException
      */
-    public function store(FlightCreateRequest $request): JsonResponse
+    public function store(FlightRequest $request): JsonResponse
     {
         $flight = $this->flightService->create($request->validated());
         return ApiResponse::success("Flight created.", 201, ['flight' => new FlightResource($flight)]);
@@ -40,10 +37,12 @@ class FlightController extends Controller
      */
     public function search(Request $request): JsonResponse
     {
-        $request->validate([
+        $request->validate(
+            [
                 'from' => 'required|string',
                 'to' => 'required|string',
-                'date' => 'required|date_format:Y-m-d']
+                'date' => 'required|date_format:Y-m-d'
+            ]
         );
 
         $flights = $this->flightService->searchByFromToAndDepartureDate(
@@ -94,10 +93,10 @@ class FlightController extends Controller
     /**
      * Update flight data
      * @param Flight $flight
-     * @param FlightUpdateRequest $request
+     * @param FlightRequest $request
      * @return JsonResponse
      */
-    public function update(Flight $flight, FlightUpdateRequest $request): JsonResponse
+    public function update(Flight $flight, FlightRequest $request): JsonResponse
     {
         $updatedFlight = $this->flightService->update($flight, $request->validated());
         return ApiResponse::success(message: 'Flight updated.', data: ['flight' => new FlightResource($updatedFlight)]);
